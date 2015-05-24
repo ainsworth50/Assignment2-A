@@ -1,0 +1,50 @@
+  ##These functions calculate ,store  and output the inverse of a matrix input.
+  ##If the inverse of the input has already been stored, it is retrieved from 
+  ## store (cache) instead of being calculated anew.
+
+  ## The function makeCacheMatrix outputs a list of 4 functions to
+  ## * set  a matrix and store its value cache
+  ## * get the value of a matrix stored in cache
+  ## * set another matrix in cache
+  ## * get the second matrix from cache.
+
+
+  makeCacheMatrix <- function(x = matrix()) {
+    m <- NULL
+          set <- function(y) {
+                  x <<- y
+                  m <<- NULL
+
+  }
+    get <- function() x
+    setinverse <- function(solve) 
+      {m <<- solve}
+    getinverse <- function()
+      { m }
+    list(set = set, get = get,
+             setinverse = setinverse,
+             getinverse = getinverse)
+    }
+
+
+
+
+  ## This function retrieves the inverse of a matrix, if it is stored in cache.
+  ## Otherwise it calculates the inverse, stores it in cache, and outputs it.
+
+  cacheSolve <- function(x, ...) {
+                                  
+    m <- x$getinverse()                     # Seek to retrieve cached inverse
+     if(!is.null(m)) {                      # Check if it was already stored 
+
+            message("getting cached data")  # Message if inverse was  stored.
+            return(m)                       # Output inverse and exit.
+          } 
+     
+          data <- x$get()                   # If inverse was not already cached,
+          m <- solve(data, ...)             # calculate it,
+          x$setinverse(m)                   # cache it,
+          m                                 # output it.
+
+
+  }
